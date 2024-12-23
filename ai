@@ -1,0 +1,164 @@
+Lab 1: Vacuum Cleaner Agent
+
+1. Use a simple if-else condition for checking room cleanliness.
+
+
+2. Move linearly (e.g., from A to B).
+
+
+3. Print whether each location is Clean or Dirty.
+
+
+
+locations = {'A': 'Dirty', 'B': 'Clean'}
+
+for loc in locations:
+    if locations[loc] == 'Dirty':
+        print(f"Cleaning {loc}")
+        locations[loc] = 'Clean'
+    else:
+        print(f"{loc} is already clean")
+print("All locations are clean!")
+
+
+---
+
+Lab 2: Reflex Agent in 2x2 Grid
+
+Simulate a 2x2 grid where the agent checks and cleans each spot.
+
+grid = [['Dirty', 'Clean'], ['Clean', 'Dirty']]
+for i in range(2):
+    for j in range(2):
+        if grid[i][j] == 'Dirty':
+            print(f"Cleaning ({i}, {j})")
+            grid[i][j] = 'Clean'
+        else:
+            print(f"({i}, {j}) is already clean")
+print("Grid cleaning completed!")
+
+
+---
+
+Lab 3: Depth-First Search (DFS)
+
+Implement DFS to find a node in a tree.
+
+def dfs(tree, start, target):
+    stack = [start]
+    visited = []
+    
+    while stack:
+        node = stack.pop()
+        if node not in visited:
+            visited.append(node)
+            if node == target:
+                print(f"Found: {target}")
+                return
+            stack.extend(tree.get(node, []))
+    print("Target not found")
+
+# Example tree as adjacency list
+tree = {'A': ['B', 'C'], 'B': ['D', 'E'], 'C': ['F'], 'D': [], 'E': [], 'F': []}
+dfs(tree, 'A', 'E')
+
+
+---
+
+Lab 4: Uniform Cost Search (UCS)
+
+Find the least-cost path in a graph.
+
+import heapq
+
+def ucs(graph, start, goal):
+    queue = [(0, start, [])]
+    visited = set()
+
+    while queue:
+        cost, node, path = heapq.heappop(queue)
+        if node not in visited:
+            path = path + [node]
+            visited.add(node)
+            if node == goal:
+                print(f"Path: {path}, Cost: {cost}")
+                return
+            for neighbor, weight in graph.get(node, []):
+                heapq.heappush(queue, (cost + weight, neighbor, path))
+
+graph = {'A': [('B', 1), ('C', 4)], 'B': [('D', 2)], 'C': [('D', 1)], 'D': []}
+ucs(graph, 'A', 'D')
+
+
+---
+
+Lab 5: Semantic Network for Family Tree
+
+Use a dictionary to represent relationships.
+
+family = {
+    'John': ['Father of Mary', 'Husband of Sarah'],
+    'Sarah': ['Mother of Mary', 'Wife of John'],
+    'Mary': ['Daughter of John and Sarah']
+}
+
+for person, relations in family.items():
+    print(f"{person}:")
+    for relation in relations:
+        print(f"  - {relation}")
+
+
+---
+
+Lab 6: k-NN Classifier
+
+Manually classify a point using distance calculation.
+
+import math
+
+def euclidean_distance(p1, p2):
+    return math.sqrt(sum((x - y) ** 2 for x, y in zip(p1, p2)))
+
+data = {'A': (1, 2), 'B': (3, 4), 'C': (5, 5)}
+point = (2, 2)
+distances = {k: euclidean_distance(v, point) for k, v in data.items()}
+
+nearest = min(distances, key=distances.get)
+print(f"Nearest neighbor to {point} is {nearest}")
+
+
+---
+
+Lab 7: Linear Regression
+
+Predict a value using a straight-line equation.
+
+def linear_regression(x, y, target):
+    n = len(x)
+    m = (n * sum(xi*yi for xi, yi in zip(x, y)) - sum(x) * sum(y)) / (n * sum(xi**2 for xi in x) - sum(x)**2)
+    c = (sum(y) - m * sum(x)) / n
+    return m * target + c
+
+x = [1, 2, 3, 4, 5]
+y = [2, 4, 6, 8, 10]
+target = 6
+print(f"Predicted value for {target}: {linear_regression(x, y, target)}")
+
+
+---
+
+Lab 8: Spam Classification (Naive Bayes Simplified)
+
+Check for spam words in a message.
+
+spam_words = ['offer', 'win', 'free', 'money']
+
+def classify_message(message):
+    words = message.lower().split()
+    if any(word in words for word in spam_words):
+        print("Message is SPAM")
+    else:
+        print("Message is NOT SPAM")
+
+message = "You win free money now!"
+classify_message(message)
